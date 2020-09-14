@@ -2,9 +2,6 @@
 import os
 
 import discord
-from dotenv import load_dotenv
-
-load_dotenv()
 TOKEN = 'NzU0ODQ1NzI0MDU4ODQ1Mjk0.X16q3A.zN9RjxnkkPKpSNU0UjMFVvofr9U'
 GUILD = 'CRIMB'
 

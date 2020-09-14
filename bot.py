@@ -2,9 +2,6 @@
 import os
 
 import discord
-from dotenv import load_dotenv
-
-load_dotenv()
 TOKEN = 'NzU0ODQ1NzI0MDU4ODQ1Mjk0.X16q3A.zN9RjxnkkPKpSNU0UjMFVvofr9U'
 GUILD = 'CRIMB'
 
@@ -34,6 +31,11 @@ async def on_ready():
 
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
+
+@client.event
+async def on_message(message):
+    if '!ppl' in message.content.lower():
+        await message.channel.send('69')
 
 
 client.run(TOKEN)

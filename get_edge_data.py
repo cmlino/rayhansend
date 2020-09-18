@@ -9,9 +9,11 @@ response = requests.request("GET", url)
 # print(response.text.encode('utf8'))
 # extract count using regex
 people = str((re.search(r"'count' : (\d+)", response.text).group(1)))
-time = str((datetime.datetime.now()))
 
-fields = [people, time]
+time = datetime.datetime.now()
+date_time = time.strftime("%H:%M:%S, %m/%d/%Y")	
+
+fields = [people, date_time]
 with open('edge_data.csv', 'a') as csvfile:
     writer = csv.writer(csvfile) 
     writer.writerow(fields)

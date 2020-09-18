@@ -8,7 +8,8 @@ response = requests.request("GET", url)
 
 # print(response.text.encode('utf8'))
 # extract count using regex
-people = str((re.search(r"'count' : (\d+)", response.text).group(1)))
+people = str((re.search(r"'' : (\d+)", response.text).group(1)))
+last_update = str((re.search(r"'' : [a-zA-Z0-9_]*)", response.text).group(1)))
 
 time = datetime.datetime.now()
 date_time = time.strftime("%H:%M:%S, %m/%d/%Y")	

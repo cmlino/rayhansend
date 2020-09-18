@@ -10,9 +10,7 @@ response = requests.request("GET", url)
 # extract count using regex
 people = str((re.search(r"'' : (\d+)", response.text).group(1)))
 last_update = str((re.search(r"'' : [a-zA-Z0-9_]*)", response.text).group(1)))
-
-time = datetime.datetime.now()
-date_time = time.strftime("%H:%M:%S, %m/%d/%Y")	
+date_time = str((datetime.datetime.now()))
 
 fields = [people, date_time]
 with open('edge_data.csv', 'a') as csvfile:

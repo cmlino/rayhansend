@@ -44,9 +44,11 @@ def fetch_most_recent(file_name):
 @client.event
 async def on_message(message):
     if '!ppl' in message.content.lower():
-        data = fetch_most_recent("edge_data.csv")
+        total_people = fetch_most_recent("edge_data.csv")[0]
+        recent_time = fetch_most_recent("edge_data.csv")[1]
+        formatted_time = recent_time.strftime("%H:%M:%S, %m/%d/%Y")	
         await message.channel.send(
-            data
+            total_people, formatted_time
         )
 
 client.run(TOKEN)

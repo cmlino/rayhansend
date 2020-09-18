@@ -32,26 +32,21 @@ async def on_ready():
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
 
-def import_csv(file_name):
-    data = []
-    row_index = 0
+def fetch_most_recent(file_name):
+    data = ''
     with open(file_name, "r", encoding="utf-8", errors="ignore") as scraped:
         reader = csv.reader(scraped, delimiter=',')
         for row in reader:
             if row:  # avoid blank lines
-                row_index += 1
-                columns = [str(row_index), row[0], row[1] ]
-                data.append(columns)
+                data = row
     return data
-
-data = import_csv("edge_data.csv")
-last_row = data[-1]
 
 @client.event
 async def on_message(message):
     if '!ppl' in message.content.lower():
+        data = fetch_most_recent("edge_data.csv")
         await message.channel.send(
-            last_row
+            data
         )
 
 client.run(TOKEN)

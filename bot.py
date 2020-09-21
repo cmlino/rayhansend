@@ -50,14 +50,19 @@ def fetch_most_recent(file_name):
 async def on_message(message):
     if "!ppl" in message.content.lower():
         total_people, recent_time, updated_time = fetch_most_recent("edge_data.csv")
+        total_people = int(total_people)
         print(total_people)
         print(updated_time)
-        if (total_people <= 15):
-            await message.channel.send("**PRIME CLIMB TIME**! {} climbers (last updated at {})".format(total_people, updated_time))
-        else{
-            await message.channel.send("{} climbers (last updated at {})".format(total_people, updated_time))
-        }
-        
+        if total_people <= 15:
+            await message.channel.send(
+                "**:tada::tada::tada:PRIME CLIMB TIME:tada::tada::tada:**! \n {} climbers (last updated at {})".format(
+                    total_people, updated_time
+                )
+            )
+        else:
+            await message.channel.send(
+                "{} climbers (last updated at {})".format(total_people, updated_time)
+            )
 
 
 client.run(TOKEN)

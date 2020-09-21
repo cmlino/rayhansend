@@ -53,7 +53,7 @@ async def on_message(message):
         print(total_people)
         print(updated_time)
         if (total_people <= 15):
-            await message.channel.send("**PRIME CLIMB TIME** {} climbers (last updated at {})".format(total_people, updated_time))
+            await message.channel.send("**PRIME CLIMB TIME**! {} climbers (last updated at {})".format(total_people, updated_time))
         else{
             await message.channel.send("{} climbers (last updated at {})".format(total_people, updated_time))
         }

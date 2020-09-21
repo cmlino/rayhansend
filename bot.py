@@ -52,7 +52,12 @@ async def on_message(message):
         total_people, recent_time, updated_time = fetch_most_recent("edge_data.csv")
         print(total_people)
         print(updated_time)
-        await message.channel.send("**{}** ({})".format(total_people, updated_time))
+        if (total_people <= 15):
+            await message.channel.send("**PRIME CLIMB TIME** {} climbers (last updated at {})".format(total_people, updated_time))
+        else{
+            await message.channel.send("{} climbers (last updated at {})".format(total_people, updated_time))
+        }
+        
 
 
 client.run(TOKEN)

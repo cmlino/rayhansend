@@ -55,7 +55,7 @@ async def on_message(message):
         print(updated_time)
         if total_people <= 15:
             await message.channel.send(
-                "**:rotating_light:PRIME CLIMB TIME:rotating_light:**! \n {} climbers (last updated at {})".format(
+                "**:rotating_light: PRIME CLIMB TIME :rotating_light:** \n {} climbers (last updated at {})".format(
                     total_people, updated_time
                 )
             )

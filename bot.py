@@ -22,15 +22,6 @@ async def on_ready():
         f"{guild.name}(id: {guild.id})"
     )
 
-    for guild in client.guilds:
-        if guild.name == GUILD:
-            break
-
-    print(
-        f"{client.user} is connected to the following guild:\n"
-        f"{guild.name}(id: {guild.id})\n"
-    )
-
     members = "\n - ".join([member.name for member in guild.members])
     print(f"Guild Members:\n - {members}")
 
@@ -63,6 +54,26 @@ async def on_message(message):
             await message.channel.send(
                 "{} climbers (last updated at {})".format(total_people, updated_time)
             )
+
+    if "!holidays" in message.content.lower():
+        await message.channel.send(
+            """
+            The Edge is open: \n
+            New Years Eve and Day \n
+            MLK Day \n
+            President's Day \n
+            Columbus Day \n
+            Veteran's Day \n
+
+            The Edge is closed: \n
+            Easter Sunday \n
+            Mother's Day \n
+            Memorial Day Weekend (Sat-Mon) \n
+            July 4th \n
+            Labor Day \n
+            Thanksgiving \n
+            """
+        )
 
 
 client.run(TOKEN)

@@ -58,20 +58,20 @@ async def on_message(message):
     if "!holidays" in message.content.lower():
         await message.channel.send(
             """
-            The Edge is open: \n
-            New Years Eve and Day \n
-            MLK Day \n
-            President's Day \n
-            Columbus Day \n
-            Veteran's Day \n
+            The Edge is open:
+            New Years Eve and Day 
+            MLK Day 
+            President's Day 
+            Columbus Day 
+            Veteran's Day 
 
-            The Edge is closed: \n
-            Easter Sunday \n
-            Mother's Day \n
-            Memorial Day Weekend (Sat-Mon) \n
-            July 4th \n
-            Labor Day \n
-            Thanksgiving \n
+            The Edge is closed: 
+            Easter Sunday 
+            Mother's Day 
+            Memorial Day Weekend (Sat-Mon) 
+            July 4th 
+            Labor Day 
+            Thanksgiving
             """
         )
 

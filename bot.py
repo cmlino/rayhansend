@@ -2,29 +2,15 @@
 import os
 import discord
 import csv
+from dotenv import load_dotenv
 
-TOKEN = "NzU0ODQ1NzI0MDU4ODQ1Mjk0.X16q3A.zN9RjxnkkPKpSNU0UjMFVvofr9U"
-GUILD = "CRIMB"
-
-
+load_dotenv()
 client = discord.Client()
 
 
 @client.event
 async def on_ready():
     print(f"{client.user} has connected to Discord!")
-    for guild in client.guilds:
-        if guild.name == GUILD:
-            break
-
-    print(
-        f"{client.user} is connected to the following guild:\n"
-        f"{guild.name}(id: {guild.id})"
-    )
-
-    members = "\n - ".join([member.name for member in guild.members])
-    print(f"Guild Members:\n - {members}")
-
 
 def fetch_most_recent(file_name):
     data = ""
@@ -44,36 +30,32 @@ async def on_message(message):
         total_people = int(total_people)
         print(total_people)
         print(updated_time)
-        if total_people <= 15:
-            await message.channel.send(
-                "**:rotating_light: PRIME CLIMB TIME :rotating_light:** \n {} climbers (last updated at {})".format(
-                    total_people, updated_time
-                )
-            )
-        else:
-            await message.channel.send(
-                "{} climbers (last updated at {})".format(total_people, updated_time)
-            )
+        prime_time_string = '**:rotating_light: PRIME CLIMB TIME :rotating_light:** \n '
+        await message.channel.send(
+            f"{prime_time_string if total_people <= 15 else ''}{total_people} climbers (last updated at {updated_time})"
+        )
 
     if "!holidays" in message.content.lower():
         await message.channel.send(
             """
-            The Edge is open:
-            New Years Eve and Day 
-            MLK Day 
-            President's Day 
-            Columbus Day 
-            Veteran's Day 
+```
+The Edge is open:
+    New Years Eve and Day
+    MLK Day
+    President's Day
+    Columbus Day
+    Veteran's Day
 
-            The Edge is closed: 
-            Easter Sunday 
-            Mother's Day 
-            Memorial Day Weekend (Sat-Mon) 
-            July 4th 
-            Labor Day 
-            Thanksgiving
+The Edge is closed:
+    Easter Sunday
+    Mother's Day
+    Memorial Day Weekend (Sat-Mon)
+    July 4th
+    Labor Day
+    Thanksgiving
+```
             """
         )
 
 
-client.run(TOKEN)
+client.run(os.getenv("TOKEN"))

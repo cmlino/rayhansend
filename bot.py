@@ -2,6 +2,7 @@
 import os
 import discord
 import csv
+import random
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -55,6 +56,17 @@ The Edge is closed:
     Thanksgiving
 ```
             """
+        )
+
+    if "!beta" in message.content.lower():
+
+        beta = [ "Be taller", "It's just not physically possible for someone of your height :(", 
+        "Just stand up", "You have a foot to your left", "Technically that jug is part of the route", 
+        "You bicycle?", "You go from the start to the end hold", "BETA", "beta", "beta!", "BETA!",
+        "Just do a pull up" ]
+
+        await message.channel.send(
+            random.choice(beta)
         )
 
 

@@ -63,7 +63,7 @@ The Edge is closed:
         beta = [ "Be taller", "It's just not physically possible for someone of your height :(", 
         "Just stand up", "You have a foot to your left", "Technically that jug is part of the route", 
         "You bicycle?", "You go from the start to the end hold", "BETA", "beta", "beta!", "BETA!",
-        "Just do a pull up" ]
+        "Just do a pull up", "Just dyno it", "Have you tried campusing?" ]
 
         await message.channel.send(
             random.choice(beta)

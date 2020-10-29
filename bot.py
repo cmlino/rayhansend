@@ -8,11 +8,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 client = discord.Client()
+bot = discord.commands.Bot(command_prefix='!')
 
 
 @client.event
 async def on_ready():
     print(f"{client.user} has connected to Discord!")
+
 
 def fetch_most_recent(file_name):
     data = ""
@@ -25,20 +27,31 @@ def fetch_most_recent(file_name):
     return data
 
 
-@client.event
-async def on_message(message):
-    if "!ppl" in message.content.lower():
-        total_people, recent_time, updated_time = fetch_most_recent("edge_data.csv")
-        total_people = int(total_people)
-        print(total_people)
-        print(updated_time)
-        prime_time_string = '**:rotating_light: PRIME CLIMB TIME :rotating_light:** \n '
-        await message.channel.send(
-            f"{prime_time_string if total_people <= 15 else ''}{total_people} climbers (last updated at {updated_time})"
-        )
+@bot.command()
+async def ppl(ctx):
+    total_people, recent_time, updated_time = fetch_most_recent("edge_data.csv")
+    total_people = int(total_people)
+    print(total_people)
+    print(updated_time)
+    prime_time_string = '**:rotating_light: PRIME CLIMB TIME :rotating_light:** \n '
+    await ctx.send(
+        f"{prime_time_string if total_people <= 15 else ''}{total_people} climbers (last updated at {updated_time})"
+    )
 
-    if "!holidays" in message.content.lower():
-        await message.channel.send(
+
+@bot.command()
+async def beta(ctx):
+    f = open('beta.json')
+    commands = json.load(f)
+
+    await ctx.send(
+        random.choice(commands['beta'])
+    )
+
+
+@bot.command()
+async def holidays(ctx):
+    await ctx.send(
             """
 ```
 The Edge is open:
@@ -57,14 +70,6 @@ The Edge is closed:
     Thanksgiving
 ```
             """
-        )
-
-    if "!beta" in message.content.lower():
-        f = open('beta.json')
-        commands = json.load(f)
-
-        await message.channel.send(
-            random.choice(commands['beta'])
         )
 
 

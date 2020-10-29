@@ -3,6 +3,7 @@ import os
 import discord
 import csv
 import random
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -59,14 +60,11 @@ The Edge is closed:
         )
 
     if "!beta" in message.content.lower():
-
-        beta = [ "Be taller", "It's just not physically possible for someone of your height :(", 
-        "Just stand up", "You have a foot to your left", "Technically that jug is part of the route", 
-        "You bicycle?", "You go from the start to the end hold", "BETA", "beta", "beta!", "BETA!",
-        "Just do a pull up", "Just dyno it", "Have you tried campusing?" ]
+        f = open('beta.json')
+        commands = json.load(f)
 
         await message.channel.send(
-            random.choice(beta)
+            random.choice(commands['beta'])
         )
 
 

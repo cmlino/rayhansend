@@ -1,19 +1,19 @@
 # bot.py
 import os
 import discord
+from discord.ext import commands
 import csv
 import random
 import json
 from dotenv import load_dotenv
 
 load_dotenv()
-client = discord.Client()
-bot = discord.commands.Bot(command_prefix='!')
+bot = commands.Bot(command_prefix='!')
 
 
-@client.event
+@bot.event
 async def on_ready():
-    print(f"{client.user} has connected to Discord!")
+    print(f"{bot.user} has connected to Discord!")
 
 
 def fetch_most_recent(file_name):
@@ -42,10 +42,10 @@ async def ppl(ctx):
 @bot.command()
 async def beta(ctx):
     f = open('beta.json')
-    commands = json.load(f)
+    phrases = json.load(f)
 
     await ctx.send(
-        random.choice(commands['beta'])
+        random.choice(phrases['beta'])
     )
 
 
@@ -72,5 +72,4 @@ The Edge is closed:
             """
         )
 
-
-client.run(os.getenv("TOKEN"))
+bot.run(os.getenv("TOKEN"))

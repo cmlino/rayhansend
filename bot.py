@@ -1,7 +1,10 @@
 # bot.py
 import os
-import discord
 from discord.ext import commands
+
+from datetime import date
+import holidays
+
 import csv
 import random
 import json
@@ -51,25 +54,16 @@ async def beta(ctx):
 
 @bot.command()
 async def holidays(ctx):
-    await ctx.send(
-            """
-```
-The Edge is open:
-    New Years Eve and Day
-    MLK Day
-    President's Day
-    Columbus Day
-    Veteran's Day
-
-The Edge is closed:
-    Easter Sunday
-    Mother's Day
-    Memorial Day Weekend (Sat-Mon)
-    July 4th
-    Labor Day
-    Thanksgiving
-```
-            """
-        )
+    closed = ['Easter', 'Mother\'s Day', 'Memorial Day Weekend', 'July 4th', 'Labor Day', 'Thanksgiving']
+    today = date.today()
+    us_holidays = holidays.US(years=today.year).items()
+    if today in us_holidays:
+        holiday_name = us_holidays[today]
+        if holiday_name in closed:
+            await ctx.send('The Edge is **closed** for {}'.format(holiday_name))
+        else:
+            await ctx.send('The Edge is **open** for {}'.format(holiday_name))
+    else:
+        await ctx.send('No it\'s not :sad:')
 
 bot.run(os.getenv("TOKEN"))

@@ -75,5 +75,12 @@ async def on_message(message):
             random.choice(beta)
         )
 
+    if "!stretch" in message.content.lower():
+        stretches = [ "Russian twists", " https://www.youtube.com/watch?v=6A2V9Bu80J4", "Side planks", ":penguin:s", "Plank", "Hollow body", "Superman", "Pull up ", "Wall sit", "Cobra", "Weird hand thing", "Bicycles", "Sit up ", "Crunches", "Plank (1 min)", "Plank (1 min)", "Plank (1 min)", "Plank"  ]
+
+        await message.channel.send(
+            f"{random.choice(stretches)} {random.randint(0, 200)} reps"
+        )
+
 
 client.run(os.getenv("TOKEN"))

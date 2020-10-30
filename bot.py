@@ -2,7 +2,7 @@
 import os
 from discord.ext import commands
 
-from datetime import date
+from datetime import date, datetime
 import holidays
 
 import csv
@@ -72,5 +72,17 @@ async def holiday(ctx):
         await ctx.send('The Edge is **closed** for {}'.format(holiday_name))
     else:
         await ctx.send('The Edge is **open** today!')
+
+@bot.command
+async def plot(ctx):
+    dates = []
+    people = []
+    with open('edge_data.csv', "r", encoding="utf-8", errors="ignore") as scraped:
+        reader = csv.reader(scraped, delimiter=",")
+        for row in reader:
+            if row:  # avoid blank lines
+                people.append(row[0])
+                time = datetime.strptime(row[1], '%Y-%m-%d %H:%M:%S.%f')
+                dates.append(time)
 
 bot.run(os.getenv("TOKEN"))

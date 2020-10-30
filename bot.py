@@ -60,7 +60,6 @@ def calc_easter(year):
     code adapted from
     https://code.activestate.com/recipes/576517-calculate-easter-western-given-a-year/
     '''
-
     a = year % 19
     b = year // 100
     c = year % 100
@@ -95,12 +94,12 @@ def get_irregular_date(weekday: str, num: int, month: int, year: int) -> date:
 
     cal = calendar.Calendar(firstweekday=calendar.SUNDAY)
     month = cal.monthdatescalendar(year, month)
-    irregular_date = month[num - 1, day_index]
+    irregular_date = month[num - 1][day_index]
 
     # calendar pads the start of month with days from the previous month
     # ensure we return a date from the proper month
     if irregular_date.month != month:
-        irregular_date = month[num, day_index]
+        irregular_date = month[num][day_index]
 
     return irregular_date
 

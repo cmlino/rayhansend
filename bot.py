@@ -3,7 +3,8 @@ import os
 from discord.ext import commands
 
 from datetime import date
-import calendar, dateutil
+import calendar
+import dateutil
 
 import csv
 import random
@@ -51,6 +52,26 @@ async def beta(ctx):
         random.choice(phrases['beta'])
     )
 
+
+def calc_easter(year):
+    '''
+    calculates the date of easter for the specified year
+
+    code adapted from
+    https://code.activestate.com/recipes/576517-calculate-easter-western-given-a-year/
+    '''
+
+    a = year % 19
+    b = year // 100
+    c = year % 100
+    d = (19 * a + b - b // 4 - ((b - (b + 8) // 25 + 1) // 3) + 15) % 30
+    e = (32 + 2 * (b % 4) + 2 * (c // 4) - d - (c % 4)) % 7
+    f = d + e - 7 * ((a + 11 * d + 22 * e) // 451) + 114
+    month = f // 31
+    day = f % 31 + 1
+    return date(year, month, day)
+
+
 def get_irregular_date(weekday: str, num: int, month: int, year: int) -> date:
     '''
     generates date object for an irregular date (eg. the 4th Sunday of April)
@@ -89,7 +110,7 @@ async def holiday(ctx):
     year = curr_day.year
 
     closed = {
-            dateutil.easter.easter(year): 'Easter',
+            calc_easter(year): 'Easter',
             get_irregular_date('Sunday', 2, 5, year): 'Mother\'s Day',
             get_irregular_date('Saturday', 4, 5, year): 'Memorial Day Weekend',
             get_irregular_date('Sunday', 4, 5, year): 'Memorial Day Weekend',

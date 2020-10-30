@@ -10,9 +10,13 @@ from dotenv import load_dotenv
 load_dotenv()
 client = discord.Client()
 
-@client.event
-async def on_ready():
-    print(f"{client.user} has connected to Discord!")
+def get_climbers():
+    response = requests.get("https://portal.rockgympro.com/portal/public/5b68a6f4de953dcb1285dc466295eb59/occupancy")
+
+    people = int((re.search(r"'count' : (\d+)", response.text).group(1)))
+    last_update = str((re.search(r"\d+:\d+ [AP]M", response.text).group()))
+
+    return (people, last_update)
 
 def fetch_most_recent(file_name):
     data = ""
@@ -24,22 +28,20 @@ def fetch_most_recent(file_name):
     print(data)
     return data
 
+@client.event
+async def on_ready():
+    data = get_climbers()
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{data[0]} climbers"))
+    print(f"{client.user} has connected to Discord!")
 
 @client.event
-
-
 async def on_message(message):
 
     if "!ppl" in message.content.lower():
-        
-        response = requests.get("https://portal.rockgympro.com/portal/public/5b68a6f4de953dcb1285dc466295eb59/occupancy")
-
-        people = int((re.search(r"'count' : (\d+)", response.text).group(1)))
-        last_update = str((re.search(r"\d+:\d+ [AP]M", response.text).group()))
-       
+        data = get_climbers()
         prime_time_string = '**:rotating_light: PRIME CLIMB TIME :rotating_light:** \n'
         await message.channel.send(
-            f"{prime_time_string if people <= 15 else ''}{people} climbers (last updated at {last_update})"
+            f"{prime_time_string if data[0] <= 15 else ''}{data[0]} climbers (last updated at {data[1]})"
         )
 
     if "!holidays" in message.content.lower():
@@ -74,6 +76,5 @@ async def on_message(message):
         await message.channel.send(
             random.choice(beta)
         )
-
 
 client.run(os.getenv("TOKEN"))

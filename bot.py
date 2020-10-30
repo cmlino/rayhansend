@@ -99,13 +99,10 @@ async def holiday(ctx):
             get_irregular_date('Thursday', 4, 11, year): 'Thanksgiving'
     }
 
-    if today in us_holidays:
-        holiday_name = us_holidays[today]
-        if holiday_name in closed:
-            await ctx.send('The Edge is **closed** for {}'.format(holiday_name))
-        else:
-            await ctx.send('The Edge is **open** for {}'.format(holiday_name))
+    if curr_day in closed:
+        holiday_name = closed[curr_day]
+        await ctx.send('The Edge is **closed** for {}'.format(holiday_name))
     else:
-        await ctx.send('No it\'s not :upside_down:')
+        await ctx.send('The Edge is **open** today!')
 
 bot.run(os.getenv("TOKEN"))

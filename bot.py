@@ -1,5 +1,5 @@
 # bot.py
-import os
+
 from discord.ext import commands
 import discord
 
@@ -10,6 +10,9 @@ from matplotlib.dates import (YEARLY, DateFormatter,
 from datetime import date, datetime
 import holidays
 
+import os
+import re
+import requests
 import csv
 import random
 import json
@@ -31,7 +34,7 @@ def get_climbers():
 async def on_ready():
     print(f"{bot.user} has connected to Discord!")
     data = get_climbers()
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{data[0]} climbers"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{data[0]} climbers"))
     
   
 def fetch_most_recent(file_name):
@@ -41,7 +44,6 @@ def fetch_most_recent(file_name):
         for row in reader:
             if row:  # avoid blank lines
                 data = row
-    print(data)
     return data
 
 
@@ -49,8 +51,6 @@ def fetch_most_recent(file_name):
 async def ppl(ctx):
     total_people, recent_time, updated_time = fetch_most_recent("edge_data.csv")
     total_people = int(total_people)
-    print(total_people)
-    print(updated_time)
     prime_time_string = '**:rotating_light: PRIME CLIMB TIME :rotating_light:** \n '
     await ctx.send(
         f"{prime_time_string if total_people <= 15 else ''}{total_people} climbers (last updated at {updated_time})"

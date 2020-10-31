@@ -14,17 +14,26 @@ import csv
 import random
 import json
 import uuid
+
 from dotenv import load_dotenv
 
 load_dotenv()
 bot = commands.Bot(command_prefix='!')
 
+def get_climbers():
+    response = requests.get("https://portal.rockgympro.com/portal/public/5b68a6f4de953dcb1285dc466295eb59/occupancy")
+    people = int((re.search(r"'count' : (\d+)", response.text).group(1)))
+    last_update = str((re.search(r"\d+:\d+ [AP]M", response.text).group()))
 
+    return (people, last_update)
+    
 @bot.event
 async def on_ready():
     print(f"{bot.user} has connected to Discord!")
-
-
+    data = get_climbers()
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{data[0]} climbers"))
+    
+  
 def fetch_most_recent(file_name):
     data = ""
     with open(file_name, "r", encoding="utf-8", errors="ignore") as scraped:
@@ -56,6 +65,7 @@ async def beta(ctx):
     await ctx.send(
         random.choice(phrases['beta'])
     )
+
 
 @bot.command()
 async def holiday(ctx):
@@ -103,6 +113,15 @@ async def plot(ctx):
     imagename = 'graphs/{}.png'.format(uuid.uuid1())
     plt.savefig(imagename)
     await ctx.send(file=discord.File(imagename))
+                
+
+@bot.command()
+async def stretch(ctx):
+    stretches = [ "Russian twists", " https://www.youtube.com/watch?v=6A2V9Bu80J4", "Side planks", ":penguin:s", "Plank", "Hollow body", "Superman", "Pull up ", "Wall sit", "Cobra", "Weird hand thing", "Bicycles", "Sit up ", "Crunches", "Plank (1 min)", "Plank (1 min)", "Plank (1 min)", "Plank"  ]
+
+    await ctx.send(
+        f"{random.choice(stretches)} {random.randint(0, 200)} reps"
+    )
 
 
 bot.run(os.getenv("TOKEN"))

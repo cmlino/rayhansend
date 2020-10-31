@@ -3,6 +3,7 @@ import os
 import re
 import csv
 import random
+import json
 import discord
 import requests
 from dotenv import load_dotenv
@@ -67,14 +68,11 @@ async def on_message(message):
         )
 
     if "!beta" in message.content.lower():
-
-        beta = [ "Be taller", "It's just not physically possible for someone of your height :(", 
-        "Just stand up", "You have a foot to your left", "Technically that jug is part of the route", 
-        "You bicycle?", "You go from the start to the end hold", "BETA", "beta", "beta!", "BETA!",
-        "Just do a pull up", "Just dyno it", "Have you tried campusing?" ]
+        f = open('beta.json')
+        commands = json.load(f)
 
         await message.channel.send(
-            random.choice(beta)
+            random.choice(commands['beta'])
         )
 
     if "!stretch" in message.content.lower():

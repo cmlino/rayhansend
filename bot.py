@@ -1,6 +1,7 @@
 # bot.py
 import os
 from discord.ext import commands
+import discord
 
 import matplotlib.pyplot as plt
 from matplotlib.dates import (YEARLY, DateFormatter,
@@ -12,6 +13,7 @@ import holidays
 import csv
 import random
 import json
+import uuid
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -98,6 +100,9 @@ async def plot(ctx):
     ax.xaxis.set_major_formatter(formatter)
     ax.xaxis.set_tick_params(rotation=30, labelsize=10)
 
-    plt.savefig('tmp.png')
+    imagename = 'graphs/{}.png'.format(uuid.uuid1())
+    plt.savefig(imagename)
+    await ctx.send(file=discord.File(imagename))
+
 
 bot.run(os.getenv("TOKEN"))

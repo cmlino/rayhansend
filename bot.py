@@ -2,6 +2,10 @@
 import os
 from discord.ext import commands
 
+import matplotlib.pyplot as plt
+from matplotlib.dates import (YEARLY, DateFormatter,
+                              rrulewrapper, RRuleLocator, drange)
+
 from datetime import date, datetime
 import holidays
 
@@ -73,7 +77,7 @@ async def holiday(ctx):
     else:
         await ctx.send('The Edge is **open** today!')
 
-@bot.command
+@bot.command()
 async def plot(ctx):
     dates = []
     people = []
@@ -84,5 +88,16 @@ async def plot(ctx):
                 people.append(row[0])
                 time = datetime.strptime(row[1], '%Y-%m-%d %H:%M:%S.%f')
                 dates.append(time)
+
+    rule = rrulewrapper(YEARLY, interval=24)
+    loc = RRuleLocator(rule)
+    formatter = DateFormatter('%m/%d/%y')
+    fig, ax = plt.subplots()
+    plt.plot_date(dates, people)
+    ax.xaxis.set_major_locator(loc)
+    ax.xaxis.set_major_formatter(formatter)
+    ax.xaxis.set_tick_params(rotation=30, labelsize=10)
+
+    plt.savefig('tmp.png')
 
 bot.run(os.getenv("TOKEN"))

@@ -1,6 +1,6 @@
 # bot.py
 
-from discord.ext import commands
+from discord.ext import commands, tasks
 import discord
 
 import matplotlib.pyplot as plt
@@ -33,10 +33,9 @@ def get_climbers():
 @bot.event
 async def on_ready():
     print(f"{bot.user} has connected to Discord!")
-    data = get_climbers()
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{data[0]} climbers"))
-    
-  
+    set_status.start()
+
+
 def fetch_most_recent(file_name):
     data = ""
     with open(file_name, "r", encoding="utf-8", errors="ignore") as scraped:
@@ -115,6 +114,7 @@ async def plot(ctx):
     await ctx.send(file=discord.File(imagename))
                 
 
+
 @bot.command()
 async def stretch(ctx):
     stretches = [ "Russian twists", " https://www.youtube.com/watch?v=6A2V9Bu80J4", "Side planks", ":penguin:s", "Plank", "Hollow body", "Superman", "Pull up ", "Wall sit", "Cobra", "Weird hand thing", "Bicycles", "Sit up ", "Crunches", "Plank (1 min)", "Plank (1 min)", "Plank (1 min)", "Plank"  ]
@@ -122,6 +122,11 @@ async def stretch(ctx):
     await ctx.send(
         f"{random.choice(stretches)} {random.randint(0, 200)} reps"
     )
+
+@tasks.loop(minutes=5.0)
+async def set_status():
+    data = get_climbers()
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{data[0]} climbers"))
 
 
 bot.run(os.getenv("TOKEN"))

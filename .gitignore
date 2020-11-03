@@ -1,2 +1,3 @@
 edge_data.csv
 .env
+*.pyc
